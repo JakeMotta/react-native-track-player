@@ -101,13 +101,18 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
 
         ReactApplicationContext context = getReactApplicationContext();
 
-        // Binds the service to get a MediaWrapper instance
-        Intent intent = new Intent(context, MusicService.class);
-        context.startService(intent);
-        intent.setAction(Utils.CONNECT_INTENT);
-        context.bindService(intent, this, 0);
+        try {
+            // Binds the service to get a MediaWrapper instance
+            Intent intent = new Intent(context, MusicService.class);
+            context.startService(intent);
+            intent.setAction(Utils.CONNECT_INTENT);
+            context.bindService(intent, this, 0);
 
-        connecting = true;
+            connecting = true;
+        } catch (IllegalStateException exception){
+            Log.e(Utils.LOG, "An error occurred while connecting to service", exception);
+        }
+
     }
 
     /* ****************************** API ****************************** */
